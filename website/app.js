@@ -1,6 +1,7 @@
 /* API credentials*/
 const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
 const apiKey = "&appid=a51e67c9e59fa7fe055cb0279d333376";
+let units = "&units=imperial";
 let generate = document.getElementById("generate");
 
 // Create a new date instance dynamically with JS
@@ -16,7 +17,7 @@ function performAction(e) {
   let feelings = document.getElementById("feelings").value;
 
   // get data from weather API
-  getWeather(baseURL, zip, apiKey)
+  getWeather(baseURL, zip, apiKey, units)
     // waiting for the data and then sending it to our server project data
     .then((data) => {
       //console.log(data);
@@ -35,8 +36,8 @@ function performAction(e) {
 }
 
 //function to fetch data from api
-const getWeather = async (baseURL, zip, apiKey) => {
-  const temp = await fetch(`${baseURL}${zip}${apiKey}`);
+const getWeather = async (baseURL, zip, apiKey, units) => {
+  const temp = await fetch(`${baseURL}${zip}${units}${apiKey}`);
   //console.log(temp);
   try {
     const allData = await temp.json();
@@ -71,13 +72,9 @@ const updatUi = async () => {
   const request = await fetch("/all");
   try {
     const allData = await request.json();
-    document.getElementById("date").innerHTML = `Date : ${allData[0].date}`;
-    document.getElementById(
-      "temp"
-    ).innerHTML = `Tempratuer : ${allData[0].temp}`;
-    document.getElementById(
-      "content"
-    ).innerHTML = `i feel: ${allData[0].content}`;
+    document.getElementById("date").innerHTML = `Date : ${allData.date}`;
+    document.getElementById("temp").innerHTML = `Tempratuer : ${allData.temp}`;
+    document.getElementById("content").innerHTML = `i feel: ${allData.content}`;
   } catch (error) {
     console.log("error", error);
   }
